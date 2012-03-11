@@ -22,13 +22,22 @@ public class Ball {
 	 * @return angle in [-180, 180] saying where is the ball.
 	 */
 	public Direction findBall() {
-		int[] val = ir.getSensorValues();
+		return getDirection(ir.getSensorValues());
+	}
+	
+	public Direction getDirection ( int[] val) {
 		
 		int sum = 0;
 		for (int i : val) {
 			sum += i;
 		}
-		if (sum < 10) {
+		
+		double avg = (double) sum / 5;
+		double dv = 0;
+		for (int i : val) {
+			dv += Math.pow(Math.abs(avg-i), 2);
+		}
+		if (sum < 10 || dv < 150) {
 			return new Direction();
 		}
 		
@@ -40,9 +49,18 @@ public class Ball {
 				best = i;
 			}
 		}
+		double angle = 0;
+		if (best < 4){
+			angle = 60.0 * (best - 2);
+			angle += 60.0 * ((double)val[best+1]/ (val[best]+val[best+1]));
+		} else if (val[4] > val[0]) {
+			angle = 120;
+			angle += 120.0*((double)val[0]/(val[0]+val[4]));
+		} else {
+			angle = -120;
+			angle -= 120.0*((double)val[4]/(val[0]+val[4]));
+		}
+		return new Direction (angle);
 		
-		double mul = (best < 4) ? 60.0 : 120.0;
-		
-		return new Direction (60*(best-2)+ mul*getMean(val[best], val[(best+1)%5]));
 	}
 }
