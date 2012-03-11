@@ -53,4 +53,5 @@ public class Rurek {
 	private static boolean sameSign(Direction dir1, Direction dir2) {
 		return dir1.getAngle() * dir2.getAngle() > 0;
 	}
+
 }
