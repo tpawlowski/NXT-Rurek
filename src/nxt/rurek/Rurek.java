@@ -36,7 +36,7 @@ public class Rurek {
 					LCD.drawString("new dir: --", 0, 2);
 					move.goToPosition(current);
 				}
-				Thread.sleep(2000);
+				Thread.sleep(200);
 			}
 		}
 		catch (InterruptedException ex){
