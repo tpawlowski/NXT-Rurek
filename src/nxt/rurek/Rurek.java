@@ -11,6 +11,7 @@ public class Rurek {
 		Ball ball = new Ball();
 		Direction lastTarget = ball.findBall();
 		MoveController move = new MoveController();
+		try {
 		while (!Button.ESCAPE.isDown()) {
 			Direction current = ball.findBall();
 			if(lastTarget.isInRange()){
@@ -22,6 +23,10 @@ public class Rurek {
 			else if(current.isInRange()) {
 				move.goToPosition(current);
 			}
+			Thread.sleep(2000);
+		}
+		}
+		catch (InterruptedException ex){
 		}
 	}
 	
