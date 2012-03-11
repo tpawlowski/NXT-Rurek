@@ -28,7 +28,7 @@ public class Ball {
 		for (int i : val) {
 			sum += i;
 		}
-		if (sum < 100) {
+		if (sum < 10) {
 			return new Direction();
 		}
 		
