@@ -1,7 +1,6 @@
 package nxt.rurek;
 
 import lejos.nxt.SensorPort;
-import lejos.nxt.addon.CompassHTSensor;
 import lejos.nxt.addon.IRSeekerV2;
 
 public class Ball {
@@ -22,7 +21,7 @@ public class Ball {
 	 * Function findBall
 	 * @return angle in [-180, 180] saying where is the ball.
 	 */
-	public double findBall() {
+	public Direction findBall() {
 		int[] val = ir.getSensorValues();
 		
 		int sum = 0;
@@ -30,7 +29,7 @@ public class Ball {
 			sum += i;
 		}
 		if (sum < 100) {
-			return -1000;
+			return new Direction();
 		}
 		
 		int m = 0;
@@ -44,6 +43,6 @@ public class Ball {
 		
 		double mul = (best < 4) ? 60.0 : 120.0;
 		
-		return 60*(best-2)+ mul*getMean(val[best], val[(best+1)%5]);
+		return new Direction (60*(best-2)+ mul*getMean(val[best], val[(best+1)%5]));
 	}
 }
