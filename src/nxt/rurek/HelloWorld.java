@@ -9,7 +9,7 @@ public class HelloWorld {
 	
 	/*
 	 * S1 - ultrasonic
-	 * S2 - podczerwień
+	 * S2 - podczerwien
 	 * S3 - kolor
 	 * S4 - kompass 
 	 */
