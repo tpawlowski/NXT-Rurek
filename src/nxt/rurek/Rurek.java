@@ -11,7 +11,7 @@ public class Rurek {
 	public static void main(String[] args) {
 		Ball ball = new Ball();
 		Direction lastTarget = ball.findBall();
-		MoveController move = new MoveController();
+		PositionController move = new PositionController();
 		LCD.drawString("old dir: " + lastTarget.getAngle(), 0, 1);
 		LCD.drawString("new dir: " + lastTarget.getAngle(), 0, 2);
 		try {
