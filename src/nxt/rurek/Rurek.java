@@ -27,6 +27,11 @@ public class Rurek {
 				}
 				else if(current.isInRange()) {
 					LCD.drawString("old dir: --", 0, 1);
+					LCD.drawString("new dir: " + lastTarget.getAngle(), 0, 2);
+					move.goToPosition(current);
+				}
+				else {
+					LCD.drawString("old dir: --", 0, 1);
 					LCD.drawString("new dir: --", 0, 2);
 					move.goToPosition(current);
 				}

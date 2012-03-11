@@ -7,7 +7,7 @@ import lejos.nxt.NXTRegulatedMotor;
 public class MoveController {
 	NXTRegulatedMotor left = Motor.A;
 	NXTRegulatedMotor right = Motor.B;
-	private static int max_speed = 100;
+	private static int max_speed = 100; 
 	
 	
 	public void goToPosition(Direction direction) {
@@ -26,8 +26,16 @@ public class MoveController {
 				left_speed *= ((180 - direction.getAngle()) / 180);
 			}
 		}
-		left.setSpeed(left_speed);
-		right.setSpeed(right_speed);
+		left.setSpeed(Math.abs(left_speed));
+		right.setSpeed(Math.abs(right_speed));
+		if(left_speed > 0)
+			left.forward();
+		else
+			left.backward();
+		if(right_speed > 0)
+			right.forward();
+		else
+			right.backward();
 	}
 	
 }
