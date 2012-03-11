@@ -1,18 +1,14 @@
 package nxt.rurek;
 
+import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
-import lejos.nxt.TachoMotorPort;
 
 
-public class MoveControler {
-	NXTRegulatedMotor left;
-	NXTRegulatedMotor right;
+public class MoveController {
+	NXTRegulatedMotor left = Motor.A;
+	NXTRegulatedMotor right = Motor.B;
 	private static int max_speed = 100;
 	
-	public MoveControler(TachoMotorPort left, TachoMotorPort right) {
-		this.left = new NXTRegulatedMotor(left);
-		this.right = new NXTRegulatedMotor(right);
-	}
 	
 	public void goToPosition(Direction direction) {
 		int left_speed = max_speed;
