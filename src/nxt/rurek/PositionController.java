@@ -1,8 +1,9 @@
 package nxt.rurek;
 
 import lejos.nxt.Motor;
-import lejos.robotics.localization.OdometryPoseProvider;
-import lejos.robotics.localization.PoseProvider;
+import lejos.nxt.SensorPort;
+import lejos.nxt.addon.CompassHTSensor;
+import lejos.robotics.navigation.CompassPilot;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Navigator;
 
@@ -13,8 +14,9 @@ public class PositionController {
 	private Navigator navigator;
 	
 	public PositionController() {
-		pilot = new DifferentialPilot(8.95, 14.8, Motor.B, Motor.A);
-		//ilot = new CompassPilot(new CompassHTSensor(SensorPort.S4), 8.95, 14.8, Motor.B, Motor.A);
+		//pilot = new DifferentialPilot(8.95, 14.8, Motor.B, Motor.A);
+		//Dom pawloskiego: pilot = new CompassPilot(new CompassHTSensor(SensorPort.S4), 8.95f, 14.8f, Motor.B, Motor.A);
+		pilot = new CompassPilot(new CompassHTSensor(SensorPort.S4), 8.1f, 14.8f, Motor.B, Motor.A);
 		navigator = new Navigator(pilot);
 		pilot.setTravelSpeed(30);
 	}
@@ -38,6 +40,8 @@ public class PositionController {
 			else {
 				//pilot.arcForward(Math.signum(direction.getAngle()) * -1 * (125 - Math.abs(direction.getAngle())) / 2);
 				pilot.steer(direction.getAngle() * -1);
+				if(direction.getAngle() == 0);
+					pilot.forward();
 			}
 		}
 	}

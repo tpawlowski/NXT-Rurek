@@ -1,4 +1,4 @@
-package nxt.rurek;
+package nxt.rurek.tests.movement;
 
 import java.util.Arrays;
 import java.util.Random;
