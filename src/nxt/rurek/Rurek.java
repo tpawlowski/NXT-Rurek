@@ -2,7 +2,9 @@ package nxt.rurek;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
+import lejos.robotics.navigation.Waypoint;
 import lejos.robotics.navigation.Pose;
+
 
 public class Rurek {
 
@@ -13,9 +15,9 @@ public class Rurek {
 		Ball ball = new Ball();
 		Direction lastTarget = ball.findBall();
 		PositionController move = new PositionController();
-		Pose begin = move.getPoseProvider().getPose();
-		LCD.drawString("oold dir: " + lastTarget.getAngle(), 0, 1);
-		LCD.drawString("onew dir: " + lastTarget.getAngle(), 0, 2);
+		Pose begin = move.getNavigator().getPoseProvider().getPose();
+		LCD.drawString("old dir: " + lastTarget.getAngle(), 0, 1);
+		LCD.drawString("new dir: " + lastTarget.getAngle(), 0, 2);
 		try {
 			while (!Button.ESCAPE.isDown()) {
 				Direction current = ball.findBall();
@@ -34,14 +36,16 @@ public class Rurek {
 					lastTarget = current;
 				}
 				else {
-					LCD.drawString("oold dir: --", 0, 1);
-					LCD.drawString("onew dir: --", 0, 2);
+					LCD.drawString("old dir: --", 0, 1);
+					LCD.drawString("new dir: --", 0, 2);
 					move.goToPosition(current);
 				}
 				Thread.sleep(200);
 			}
-			move.getPoseProvider().setPose(begin);
+			move.getDifferentialPilot().stop();
 			while (!Button.ENTER.isDown()) {}
+			move.getNavigator().goTo(new Waypoint(begin));
+			while (!Button.ESCAPE.isDown()) {}
 		}
 		catch (InterruptedException ex){
 		}
