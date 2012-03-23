@@ -17,15 +17,16 @@ public class PositionController {
 		//pilot = new DifferentialPilot(8.95, 14.8, Motor.B, Motor.A);
 		//Dom pawloskiego: pilot = new CompassPilot(new CompassHTSensor(SensorPort.S4), 8.95f, 14.8f, Motor.B, Motor.A);
 		pilot = new CompassPilot(new CompassHTSensor(SensorPort.S4), 8.1f, 14.8f, Motor.B, Motor.A);
+		//pilot = new DifferentialPilot(8.1f, 14.8f, Motor.B, Motor.A);
 		navigator = new Navigator(pilot);
 		pilot.setTravelSpeed(30);
 	}
 	
-	DifferentialPilot getDifferentialPilot() {
+	public DifferentialPilot getDifferentialPilot() {
 		return pilot;
 	}
 	
-	Navigator getNavigator() {
+	public Navigator getNavigator() {
 		return navigator;
 	}
 

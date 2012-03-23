@@ -50,5 +50,4 @@ public class Direction {
 		this.distance = distance;
 	}
 	
-	
 }
