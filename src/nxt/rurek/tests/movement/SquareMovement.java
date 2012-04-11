@@ -16,7 +16,8 @@ public class SquareMovement {
 		//Dom Pawlowskiego: DifferentialPilot pilot = new DifferentialPilot(8.95, 14.8, Motor.B, Motor.A);
 		//uczelnia :
 		//DifferentialPilot pilot = new DifferentialPilot(7.8, 14.6, Motor.B, Motor.A);
-		DifferentialPilot pilot = new DifferentialPilot(5.6,  10.4, Motor.B, Motor.A);
+		//DifferentialPilot pilot = new DifferentialPilot(5.6,  10.4, Motor.B, Motor.A);
+		DifferentialPilot pilot = new DifferentialPilot(4.1,  13.4, Motor.B, Motor.A);
 		CompassHTSensor compass = new CompassHTSensor(SensorPort.S4);
 		compass.resetCartesianZero();
 		while(!Button.ESCAPE.isDown()) {

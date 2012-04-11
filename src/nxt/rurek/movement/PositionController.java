@@ -1,5 +1,6 @@
-package nxt.rurek;
+package nxt.rurek.movement;
 
+import nxt.rurek.Direction;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.CompassHTSensor;

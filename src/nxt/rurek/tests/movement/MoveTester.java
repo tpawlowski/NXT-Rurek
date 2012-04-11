@@ -9,7 +9,7 @@ import lejos.nxt.addon.CompassHTSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
-import nxt.rurek.PositionController;
+import nxt.rurek.movement.PositionController;
 
 public class MoveTester {
 

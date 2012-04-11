@@ -28,6 +28,13 @@ public class DistanceTester {
 	}*/
 		UltrasonicSensor sensor = new UltrasonicSensor(SensorPort.S1);
         FileOutputStream out = null; // declare outside the try block
+        while (!Button.ESCAPE.isDown()){
+			LCD.drawString("dist" + sensor.getDistance()+"     ", 0, 0);
+			Button.ENTER.waitForPress();
+        }
+        if(true)
+        	return;
+        
         File data = new File("distance.dat");
 
         try {
