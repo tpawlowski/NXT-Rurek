@@ -13,13 +13,9 @@ public class Ball {
 		ir = new IRSeekerV2(SensorPort.S2, IRSeekerV2.Mode.AC);
 	}
 	
-	private double getMean (int a, int b) {
-		return ((double)b)/(a+b);  
-	}
-	
 	/**
 	 * Function findBall
-	 * @return angle in [-180, 180] saying where is the ball.
+	 * @return angle in [-180, 180] describing where is the ball.
 	 */
 	public Direction findBall() {
 		return getDirection(ir.getSensorValues());
@@ -60,7 +56,7 @@ public class Ball {
 			angle = -120;
 			angle -= 120.0*((double)val[4]/(val[0]+val[4]));
 		}
-		return new Direction (angle);
 		
+		return new Direction (angle);
 	}
 }

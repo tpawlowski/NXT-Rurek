@@ -6,7 +6,7 @@ public class Direction {
 	private double angle, distance;
 	private boolean inRange;
 	
-	public double normalize (double angle) {
+	public static double normalize (double angle) {
 		double nangle = angle - 360 * (int)((angle / 360) + 0.5);
 		if (nangle < -180) nangle += 360;
 		if (nangle >= 180) nangle -= 360;
