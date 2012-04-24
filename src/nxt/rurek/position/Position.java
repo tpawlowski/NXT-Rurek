@@ -1,6 +1,8 @@
 package nxt.rurek.position;
 
-public class Position {
+import lejos.nxt.LCD;
+
+public class Position implements MeasurementListener {
 
 	private double x = -1;
 	private double y = -1;
@@ -12,9 +14,11 @@ public class Position {
 		if(m.getDistance() < 150) {
 			if(m.canCalculateX()) {
 				this.x = this.getX();
+				LCD.drawString("Got X:" + this.x + "    ", 0, 5);
 			}
 			if(m.canCalculateY()) {
 				this.y = this.getY();
+				LCD.drawString("Got Y:" + this.y + "    ", 0, 4);
 			}
 		}
 	}
@@ -43,5 +47,8 @@ public class Position {
 		return rotation;
 	}
 	
+	public void gotMeasure(Measurement m){
+		this.addMesasurement(m);
+	}
 	
 }
