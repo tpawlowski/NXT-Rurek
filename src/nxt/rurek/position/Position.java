@@ -1,6 +1,7 @@
 package nxt.rurek.position;
 
 import lejos.nxt.LCD;
+import nxt.rurek.exceptions.EnvironmentException;
 
 public class Position implements MeasurementListener {
 
@@ -13,12 +14,22 @@ public class Position implements MeasurementListener {
 	public void addMesasurement(Measurement m) {
 		if(m.getDistance() < 150) {
 			if(m.canCalculateX()) {
-				this.x = this.getX();
-				LCD.drawString("Got X:" + this.x + "    ", 0, 5);
+				try {
+					this.x = m.calculateX();
+					LCD.drawString("Got X:" + this.x + "    ", 0, 5);
+				}
+				catch(EnvironmentException ex) {
+					LCD.drawString("Got Exception: " + ex.getMessage(), 0, 6);
+				}
 			}
 			if(m.canCalculateY()) {
-				this.y = this.getY();
-				LCD.drawString("Got Y:" + this.y + "    ", 0, 4);
+				try {
+					this.y = m.calculateY();
+					LCD.drawString("Got Y:" + this.y + "    ", 0, 4);
+				}
+				catch(EnvironmentException ex) {
+					LCD.drawString("Got Exception: " + ex.getMessage(), 0, 6);
+				}
 			}
 		}
 	}
