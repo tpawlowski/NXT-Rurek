@@ -16,12 +16,20 @@ public class Environment {
 	NXTRegulatedMotor headMotor;
 	UltrasonicSensor ultrasens;
 
+	final double leftPost = 40;
+	final double rightPost = 80;
+	final double goalSize = 40;
+	
+	final double Robotwidth = 15;
+	final double RobotLength = 18;
+	final double RobotHeight = 10;
+	
 	CompassHTSensor compass;
 	
 	public static Environment defaultEnvironment() {
 		singleton = new Environment();
-		singleton.width = 100;
-		singleton.height = 150;
+		singleton.width = 120;
+		singleton.height = 180;
 		singleton.leftMotor = Motor.A;
 		singleton.rightMotor = Motor.B;
 		singleton.headMotor = Motor.C;
@@ -81,5 +89,32 @@ public class Environment {
 	public UltrasonicSensor getUltrasonicSensor() {
 		return ultrasens;
 	}
+	public double getLeftPost() {
+		return leftPost;
+	}
 
+
+	public double getRobotwidth() {
+		return Robotwidth;
+	}
+
+
+	public double getRobotLength() {
+		return RobotLength;
+	}
+
+
+	public double getRobotHeight() {
+		return RobotHeight;
+	}
+
+
+	public double getRightPost() {
+		return rightPost;
+	}
+
+
+	public double getGoalSize() {
+		return goalSize;
+	}
 }
