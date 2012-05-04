@@ -5,7 +5,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.CompassHTSensor;
-import nxt.rurek.exceptions.EnvironmentException;
+import nxt.rurek.geometry.Pitch;
 
 public class Environment {
 	private static Environment singleton;
@@ -15,10 +15,14 @@ public class Environment {
 	NXTRegulatedMotor rightMotor;
 	NXTRegulatedMotor headMotor;
 	UltrasonicSensor ultrasens;
+	Pitch pitchModel; 
 
 	final double leftPost = 40;
 	final double rightPost = 80;
 	final double goalSize = 40;
+	final double penaltyDepth = 30;
+	final double penaltyWidth = 50;
+	final double closerMidline = 70;
 	
 	final double Robotwidth = 20.5;
 	final double RobotLength = 18;
@@ -37,12 +41,12 @@ public class Environment {
 		singleton = new Environment();
 		singleton.width = 120;
 		singleton.height = 180;
+		singleton.pitchModel = new Pitch(new PitchDescription());
 		singleton.leftMotor = Motor.B;
 		singleton.rightMotor = Motor.A;
 		singleton.headMotor = Motor.C;
 		singleton.compass = new CompassHTSensor(SensorPort.S4);
 		singleton.ultrasens = new UltrasonicSensor(SensorPort.S1);
-		
 		return singleton;
 	}
 	
