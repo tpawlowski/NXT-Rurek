@@ -29,6 +29,7 @@ public class HeadController implements RegulatedMotorListener  {
 	
 	public void start() {
 		currentDirection = MoveDirection.Left;
+		this.rotationStopped(null, 0, false, 0);
 		head.rotate(move_step, true);
 	}
 	
@@ -38,14 +39,16 @@ public class HeadController implements RegulatedMotorListener  {
 		if(currentDirection == MoveDirection.Stoped) return;
 		
 		if(listener != null) {
-			Measurement current = new Measurement(null, compass.getDegreesCartesian() + head.getTachoCount() / max_tacho, distance.getDistance());
+			LCD.drawString("dist: " + distance.getDistance() + "  ", 0, 6);
+			LCD.drawString("direction: " +  compass.getDegrees() + "  ", 0, 7);
+					
+			double head_angle = compass.getDegreesCartesian() + (((double) head.getTachoCount() / max_tacho) * 180) - 90;
+			Measurement current = new Measurement(head_angle,  distance.getDistance());
 			listener.gotMeasure(current);
 		}
 		
 		if(currentDirection == MoveDirection.Left) {
-			LCD.drawString("Head: rotate left", 0, 2);
 			if(head.getTachoCount() + move_step > max_tacho + 10) {
-				LCD.drawString("Head: rotate left", 0, 2);
 				currentDirection = MoveDirection.Right;
 				head.rotate(-move_step, true);
 			}
@@ -54,9 +57,7 @@ public class HeadController implements RegulatedMotorListener  {
 			}
 		}
 		else {
-			LCD.drawString("Head: rotate right", 0, 2);
 			if(head.getTachoCount() - move_step < -10) {
-				LCD.drawString("Head: rotate right", 0, 2);
 				currentDirection = MoveDirection.Left;
 				head.rotate(move_step, true);
 			}

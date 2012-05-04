@@ -1,7 +1,9 @@
 package nxt.rurek.tests.position;
 
 import lejos.nxt.Button;
+import lejos.robotics.navigation.Pose;
 import nxt.rurek.Environment;
+import nxt.rurek.movement.PositionController;
 import nxt.rurek.position.HeadController;
 import nxt.rurek.position.Position;
 
@@ -15,11 +17,20 @@ public class CompassTest {
 		}*/
 		
 		Environment.getEnvironment().getCompass().resetCartesianZero();
+		Environment env = Environment.getEnvironment();
 		HeadController head = new HeadController();
-		Position pos = new Position();
+		PositionController controller = new PositionController();
+		Pose currentPose = new Pose();
+		currentPose.setLocation((int)env.getWidth() / 2, 0);
+		controller.getNavigator().getPoseProvider().setPose(currentPose);
+		Position pos = new Position(controller);
 		head.addMeasurementListener(pos);
-		head.start();
 		
+		head.start();
+		while(!Button.ESCAPE.isDown()) {
+			head.rotationStopped(null, 0, false, 0);
+			Button.ENTER.waitForPress();
+		}
 		Button.ESCAPE.waitForPress();
 		head.resetHead();
 	}

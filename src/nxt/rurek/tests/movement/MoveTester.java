@@ -37,15 +37,18 @@ public class MoveTester {
 		Waypoint p2 = new Waypoint(0,0);
 		p2.setMaxPositionError(4);
 		Point p3 = new Point(0, 0);
-		move.getNavigator().goTo(20, 30);
-		move.getNavigator().goTo(150, 0 );
-		move.getNavigator().goTo(150, -150);
-		move.getNavigator().addWaypoint(p2);
+		move.getNavigator().goTo(0, 20);
+		move.getNavigator().goTo(30, 40);
+		move.getNavigator().goTo(0, 0);
+		//move.getNavigator().goTo(150, 0 );
+		//move.getNavigator().goTo(150, -150);
+		//move.getNavigator().addWaypoint(p2);
 		//move.getNavigator().goTo(400, 0 );
 		//move.getNavigator().goTo(400, -240 );
 		//move.getNavigator().goTo(-150, -240 );
 		//move.getNavigator().goTo(-150, 0 );
 		//move.getNavigator().goTo(0, 0 );
+		
 		
 		while (!Button.ESCAPE.isDown()) {
 			LCD.drawString("x: " + move.getNavigator().getPoseProvider().getPose().getX() + "      ", 0, 2);
