@@ -20,6 +20,9 @@ public class HeadMoveTest implements ButtonListener {
 			
 			test.controller.getDifferentialPilot().setRotateSpeed(20);
 			test.controller.getNavigator().goTo(80, 60);
+			test.controller.getNavigator().goTo(90, 140);
+			test.controller.getNavigator().goTo(10, 140);
+			test.controller.getNavigator().goTo(60, 20);
 			
 			while (!Button.ESCAPE.isDown()) {
 				LCD.drawString("x: " + test.controller.getNavigator().getPoseProvider().getPose().getX() + "      ", 0, 2);
