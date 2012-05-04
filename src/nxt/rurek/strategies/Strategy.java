@@ -2,7 +2,7 @@ package nxt.rurek.strategies;
 
 import nxt.rurek.conditions.Condition;
 import nxt.rurek.exceptions.PositionLostException;
-import nxt.rurek.movement.MoveController;
+import nxt.rurek.movement.PositionController;
 
 public abstract class Strategy {
 
@@ -11,6 +11,6 @@ public abstract class Strategy {
 	}
 	
 	/* Rurek plays with this strategy until condition is set to true */
-	abstract void playWith(Condition cond, MoveController move) throws PositionLostException;
+	public abstract void playWith(Condition cond, PositionController move) throws PositionLostException;
 
 }

@@ -1,11 +1,10 @@
 package nxt.rurek.strategies;
 
-import sun.org.mozilla.javascript.ast.ThrowStatement;
 import nxt.rurek.Ball;
 import nxt.rurek.Direction;
 import nxt.rurek.conditions.Condition;
 import nxt.rurek.exceptions.PositionLostException;
-import nxt.rurek.movement.MoveController;
+import nxt.rurek.movement.PositionController;
 import nxt.rurek.position.Position;
 
 /**
@@ -30,7 +29,7 @@ public class GoalKeeper extends Strategy{
 	}
 	
 	@Override
-	void playWith(Condition cond, MoveController move) throws PositionLostException {
+	public void playWith(Condition cond, PositionController move) throws PositionLostException {
 		Position myPosition = new Position ();
 		Direction ballDirection;
 		while (true) {

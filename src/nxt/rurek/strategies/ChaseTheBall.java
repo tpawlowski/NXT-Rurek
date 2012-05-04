@@ -3,7 +3,7 @@ package nxt.rurek.strategies;
 import nxt.rurek.Ball;
 import nxt.rurek.Direction;
 import nxt.rurek.conditions.Condition;
-import nxt.rurek.movement.MoveController;
+import nxt.rurek.movement.PositionController;
 
 public class ChaseTheBall extends Strategy{
 	
@@ -12,9 +12,18 @@ public class ChaseTheBall extends Strategy{
 	}
 	
 	@Override
-	void playWith(Condition cond, MoveController move) {
+	public void playWith(Condition cond, PositionController move) {
 		Direction ballDirection;
 		while (true) {
+			boolean foundInRange = false;
+			while (!foundInRange) {
+				ballDirection = Ball.findBall();
+				foundInRange = ballDirection.isInRange();
+				if (!foundInRange) {
+					
+				}
+			}
+			
 			ballDirection = Ball.findBall();
 			if (!ballDirection.hasDistance()){
 				ballDirection.setDistance(15);

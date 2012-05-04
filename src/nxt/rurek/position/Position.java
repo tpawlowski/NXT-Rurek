@@ -2,7 +2,7 @@ package nxt.rurek.position;
 
 import lejos.nxt.LCD;
 import nxt.rurek.Direction;
-import nxt.rurek.constants.Pitch;
+import nxt.rurek.Environment;
 
 
 /**
@@ -93,7 +93,7 @@ public class Position implements MeasurementListener {
 	}
 	
 	public Direction getGoalRelativeDirection () {
-		return getRelativeDirection(Pitch.width/2, -Pitch.height/2);
+		return getRelativeDirection(Environment.getEnvironment().getWidth()/2, -Environment.getEnvironment().getHeight()/2);
 	}
 	
 }
