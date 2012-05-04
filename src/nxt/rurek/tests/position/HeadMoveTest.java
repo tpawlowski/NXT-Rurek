@@ -1,22 +1,55 @@
 package nxt.rurek.tests.position;
 
+import lejos.geom.Point;
 import lejos.nxt.Button;
 import lejos.nxt.ButtonListener;
 import lejos.nxt.LCD;
+import lejos.robotics.navigation.Pose;
+import lejos.robotics.navigation.Waypoint;
+import nxt.rurek.Environment;
+import nxt.rurek.movement.PositionController;
 import nxt.rurek.position.HeadController;
+import nxt.rurek.position.Position;
 
 public class HeadMoveTest implements ButtonListener {
 	
+		public PositionController controller;
 		private HeadController head;
 		public static void main(String[] args) {
 			HeadMoveTest test = new HeadMoveTest();
+			
+			test.controller.getDifferentialPilot().setRotateSpeed(20);
+			test.controller.getNavigator().goTo(80, 60);
+			
+			while (!Button.ESCAPE.isDown()) {
+				LCD.drawString("x: " + test.controller.getNavigator().getPoseProvider().getPose().getX() + "      ", 0, 2);
+				LCD.drawString("y: " + test.controller.getNavigator().getPoseProvider().getPose().getY() + "      ", 0, 3);
+				try {
+					Thread.sleep(500);
+				}
+				catch(Exception ex){
+					
+				}
+			}
+			
 			Button.ESCAPE.waitForPress();
-			test.endTest(); } 
+			test.endTest();
+		} 
 		
 		HeadMoveTest() {
 			head = new HeadController();
 			Button.LEFT.addButtonListener(this);
 			Button.RIGHT.addButtonListener(this);
+			controller = new PositionController();
+			Environment env = Environment.getEnvironment();
+			Pose p = new Pose((int) env.getWidth() / 2, 10 , 90);
+			controller.getNavigator().getPoseProvider().setPose(p);
+			Environment.getEnvironment().getCompass().resetCartesianZero();
+			Environment.getEnvironment().getHeadMotor().setSpeed(
+					Environment.getEnvironment().getHeadMotor().getMaxSpeed());
+			head.addMeasurementListener(new Position(controller));
+			//head.start();
+			
 		}
 		
 		public void buttonPressed(Button b) {
@@ -39,6 +72,5 @@ public class HeadMoveTest implements ButtonListener {
 		public void endTest() {
 			head.resetHead();
 		}
-		
 		
 }

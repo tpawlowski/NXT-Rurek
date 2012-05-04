@@ -24,10 +24,17 @@ public class Environment {
 	final double penaltyWidth = 50;
 	final double closerMidline = 70;
 	
-	final double Robotwidth = 15;
+	final double Robotwidth = 20.5;
 	final double RobotLength = 18;
 	final double RobotHeight = 10;
+	final double RobotWheel = 4.8;
 	
+	public static Environment getSingleton() {
+		return singleton;
+	}
+
+
+
 	CompassHTSensor compass;
 	
 	public static Environment defaultEnvironment() {
@@ -35,8 +42,8 @@ public class Environment {
 		singleton.width = 120;
 		singleton.height = 180;
 		singleton.pitchModel = new Pitch(new PitchDescription());
-		singleton.leftMotor = Motor.A;
-		singleton.rightMotor = Motor.B;
+		singleton.leftMotor = Motor.B;
+		singleton.rightMotor = Motor.A;
 		singleton.headMotor = Motor.C;
 		singleton.compass = new CompassHTSensor(SensorPort.S4);
 		singleton.ultrasens = new UltrasonicSensor(SensorPort.S1);
@@ -120,5 +127,9 @@ public class Environment {
 
 	public double getGoalSize() {
 		return goalSize;
+	}
+
+	public double getRobotWheel() {
+		return RobotWheel;
 	}
 }
