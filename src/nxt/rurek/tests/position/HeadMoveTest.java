@@ -51,7 +51,7 @@ public class HeadMoveTest implements ButtonListener {
 			Environment.getEnvironment().getHeadMotor().setSpeed(
 					Environment.getEnvironment().getHeadMotor().getMaxSpeed());
 			head.addMeasurementListener(new Position(controller));
-			//head.start();
+			head.start();
 			
 		}
 		
