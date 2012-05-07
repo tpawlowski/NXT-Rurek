@@ -1,15 +1,14 @@
 package nxt.rurek;
+import javax.swing.text.ChangedCharSetException;
+
+import nxt.rurek.strategies.ChaseTheBall;
+
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.CompassHTSensor;
 import lejos.nxt.addon.IRSeekerV2;
-import nxt.rurek.conditions.EmptyCondition;
-import nxt.rurek.exceptions.PositionLostException;
-import nxt.rurek.movement.PositionController;
-import nxt.rurek.strategies.ChaseTheBall;
-import nxt.rurek.strategies.Strategy;
 
 public class HelloWorld {
 	
@@ -76,13 +75,8 @@ public class HelloWorld {
 	}
 	
     public static void main(String[] args) {
-    	//testUltrasonic();
-    	
-    	Strategy s = new ChaseTheBall();
-    	try {
-    		s.playWith(new EmptyCondition(), new PositionController());
-    	} catch (PositionLostException e) {
-    		
-    	}
+    	Init i= new Init();
+    	ChaseTheBall strategy = new ChaseTheBall();
+    	strategy.playWith(i.controller);
     }
 }

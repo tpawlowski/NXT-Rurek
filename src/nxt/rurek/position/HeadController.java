@@ -4,6 +4,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.CompassHTSensor;
+import lejos.nxt.addon.IRSeekerV2;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.RegulatedMotorListener;
 import nxt.rurek.Environment;
@@ -11,7 +12,9 @@ import nxt.rurek.Environment;
 public class HeadController implements RegulatedMotorListener  {
 	private NXTRegulatedMotor head;
 	private CompassHTSensor compass;
+	private IRSeekerV2 irsensor;
 	private MeasurementListener listener;
+	private BallListener blistener;
 	private UltrasonicSensor distance;
 	private MoveDirection currentDirection = MoveDirection.Stoped;
 	
@@ -24,6 +27,7 @@ public class HeadController implements RegulatedMotorListener  {
 		head = Environment.getEnvironment().getHeadMotor();
 		compass = Environment.getEnvironment().getCompass();
 		distance = Environment.getEnvironment().getUltrasonicSensor();
+		irsensor = Environment.getEnvironment().getIrsensor();
 		head.addListener(this);
 	}
 	
@@ -41,10 +45,11 @@ public class HeadController implements RegulatedMotorListener  {
 		if(listener != null) {
 			LCD.drawString("dist: " + distance.getDistance() + "  ", 0, 6);
 			LCD.drawString("direction: " +  compass.getDegrees() + "  ", 0, 7);
-					
+			
 			double head_angle = compass.getDegreesCartesian() + (((double) head.getTachoCount() / max_tacho) * 180) - 90;
 			Measurement current = new Measurement(head_angle,  distance.getDistance());
 			listener.gotMeasure(current);
+			blistener.gotMeasure(irsensor.getSensorValues());
 		}
 		
 		if(currentDirection == MoveDirection.Left) {
@@ -88,5 +93,9 @@ public class HeadController implements RegulatedMotorListener  {
 	
 	public void addMeasurementListener (MeasurementListener listener) {
 		this.listener = listener;
+	}
+	
+	public void addBallListener (BallListener blistener) {
+		this.blistener = blistener;
 	}
 }

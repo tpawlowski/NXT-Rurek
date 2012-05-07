@@ -93,23 +93,7 @@ public class Position implements MeasurementListener {
 	}
 	
 	public static double getAngle (double x1, double y1) {
-		if (x1 == 0 && y1 >= 0) {
-			return 0;
-		} else if (x1 == 0 && y1 < 0) {
-			return 180;
-		} else if (y1 == 0 && x1 > 0) {
-			return 90;
-		} else if (y1 == 0 && x1 < 0) {
-			return -90;
-		} else {
-			double arctg = Math.atan(y1/x1);
-			if (x1 < 0 && y1 < 0) {
-				arctg -= Math.PI;
-			} else if (x1 < 0 && y1 > 0) {
-				arctg += Math.PI;
-			}
-			return Math.toDegrees(arctg);
-		}
+		return Math.toDegrees(Math.atan2(y1, x1));
 	}
 	
 	public Direction getRelativeDirection ( double rx, double ry) {

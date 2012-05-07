@@ -2,6 +2,7 @@ package nxt.rurek;
 
 import lejos.robotics.navigation.Pose;
 import nxt.rurek.movement.PositionController;
+import nxt.rurek.position.BallListener;
 import nxt.rurek.position.HeadController;
 import nxt.rurek.position.Position;
 
@@ -19,6 +20,9 @@ public class Init {
 			Environment.getEnvironment().getHeadMotor().setSpeed(
 					Environment.getEnvironment().getHeadMotor().getMaxSpeed());
 			head.addMeasurementListener(new Position(controller));
+			BallListener blistener = new BallListener();
+			head.addBallListener(blistener);
+			controller.setBallListener(blistener);
 			head.start();
 	}
 	

@@ -1,9 +1,10 @@
 package nxt.rurek.strategies;
 
+import lejos.robotics.navigation.Navigator;
 import nxt.rurek.Ball;
 import nxt.rurek.Direction;
-import nxt.rurek.conditions.Condition;
 import nxt.rurek.movement.PositionController;
+import nxt.rurek.position.BallListener;
 
 public class ChaseTheBall extends Strategy{
 	
@@ -12,26 +13,25 @@ public class ChaseTheBall extends Strategy{
 	}
 	
 	@Override
-	public void playWith(Condition cond, PositionController move) {
+	public void playWith(PositionController move) {
+		Navigator navigator = move.getNavigator();
+		BallListener ball = move.getBallListener();
 		Direction ballDirection;
+		
 		while (true) {
 			boolean foundInRange = false;
 			while (!foundInRange) {
-				ballDirection = Ball.findBall();
+				ballDirection = ball.getLast();
 				foundInRange = ballDirection.isInRange();
 				if (!foundInRange) {
-					
+					/* szukaj */
+					double angle = (double) navigator.getPoseProvider().getPose().getHeading();
+					navigator.rotateTo(Direction.normalize(angle+90));
 				}
 			}
-			
-			ballDirection = Ball.findBall();
-			if (!ballDirection.hasDistance()){
-				ballDirection.setDistance(15);
-			}
-			move.goToPosition(ballDirection);
-			if (cond.check()) {
-				break;
-			}
+			navigator.addWaypoint(ball.getLast().toWaypoint(navigator.getPoseProvider().getPose()));
+			navigator.waitForStop();
+			navigator.clearPath();
 		}
 	}
 }

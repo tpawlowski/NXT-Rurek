@@ -5,6 +5,7 @@ import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.CompassHTSensor;
+import lejos.nxt.addon.IRSeekerV2;
 import nxt.rurek.geometry.Pitch;
 
 public class Environment {
@@ -15,6 +16,7 @@ public class Environment {
 	NXTRegulatedMotor rightMotor;
 	NXTRegulatedMotor headMotor;
 	UltrasonicSensor ultrasens;
+	IRSeekerV2 irsensor;
 	Pitch pitchModel; 
 
 	final double leftPost = 40;
@@ -33,8 +35,6 @@ public class Environment {
 		return singleton;
 	}
 
-
-
 	CompassHTSensor compass;
 	
 	public static Environment defaultEnvironment() {
@@ -47,6 +47,7 @@ public class Environment {
 		singleton.headMotor = Motor.C;
 		singleton.compass = new CompassHTSensor(SensorPort.S4);
 		singleton.ultrasens = new UltrasonicSensor(SensorPort.S1);
+		singleton.irsensor = new IRSeekerV2(SensorPort.S2, IRSeekerV2.Mode.AC);
 		return singleton;
 	}
 	
@@ -102,6 +103,11 @@ public class Environment {
 	}
 	public double getLeftPost() {
 		return leftPost;
+	}
+
+
+	public IRSeekerV2 getIrsensor() {
+		return irsensor;
 	}
 
 

@@ -4,6 +4,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Navigator;
 import nxt.rurek.Direction;
 import nxt.rurek.Environment;
+import nxt.rurek.position.BallListener;
 import nxt.rurek.position.PitchPoseProvider;
 import nxt.rurek.position.Position;
 
@@ -13,6 +14,7 @@ public class PositionController {
 	private DifferentialPilot pilot;
 	private Navigator navigator;
 	private Position position;
+	private BallListener ballListener;
 	
 	public PositionController() {
 		//pilot = new DifferentialPilot(8.95, 14.8, Motor.B, Motor.A);
@@ -32,6 +34,14 @@ public class PositionController {
 	
 	public Navigator getNavigator() {
 		return navigator;
+	}
+
+	public BallListener getBallListener() {
+		return ballListener;
+	}
+
+	public void setBallListener(BallListener ballListener) {
+		this.ballListener = ballListener;
 	}
 
 	public void goToPosition(Direction direction) {

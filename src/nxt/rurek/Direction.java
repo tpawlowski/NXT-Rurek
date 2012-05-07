@@ -1,17 +1,19 @@
 package nxt.rurek;
 
+import lejos.robotics.navigation.Pose;
+import lejos.robotics.navigation.Waypoint;
 import nxt.rurek.position.BallDistanceEstimator;
 
 public class Direction {
 	
-	/* angle is in [-180, 180) */
+	/* angle is in [0, 360) */
 	private double angle, distance;
 	private boolean inRange;
 	
 	public static double normalize (double angle) {
-		double nangle = angle - 360 * (int)((angle / 360) + 0.5);
-		if (nangle < -180) nangle += 360;
-		if (nangle >= 180) nangle -= 360;
+		double nangle = angle;
+		while (nangle < 0) nangle += 360;
+		while (nangle >= 360 ) nangle -= 360; 
 		return nangle;
 	}
 	
@@ -73,6 +75,8 @@ public class Direction {
 			angle = -120;
 			angle -= 120.0*((double)val[4]/(val[0]+val[4]));
 		}
+	
+		angle = Direction.normalize(360 - angle - 90);
 		
 		double maybeDistance = BallDistanceEstimator.getEstimation(val);
 		if (maybeDistance >= 0) {
@@ -106,15 +110,26 @@ public class Direction {
 		this.distance = distance;
 	}
 	
-	public boolean isInFront() {
-		if (!inRange) {
-			return false;
-		} else {
-			return Math.abs(this.angle) < 30;
-		}
+	public double getImperativeAngle(double robotAngle) {
+		return Direction.normalize(robotAngle+getAngle()-90);
 	}
 	
 	public double getAngleDistance (double angleB) {
 		return Math.abs(normalize(angleB-this.angle));
 	}
+	
+	public Waypoint toWaypoint (Pose p) {
+		Waypoint ret = toWaypoint(p);
+		double d;
+		if (!hasDistance()) {
+			d = 20;
+		} else {
+			d = getDistance();
+		}
+		if (isInRange()) {
+			ret.setLocation(ret.getX()+d*Math.cos(getAngle()), ret.getY()+d*Math.sin(getAngle()));
+		}
+		return ret;
+	}
+	
 }
