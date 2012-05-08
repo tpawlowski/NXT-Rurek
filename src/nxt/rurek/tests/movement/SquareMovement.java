@@ -17,7 +17,7 @@ public class SquareMovement {
 		//uczelnia :
 		//DifferentialPilot pilot = new DifferentialPilot(7.8, 14.6, Motor.B, Motor.A);
 		//DifferentialPilot pilot = new DifferentialPilot(5.6,  10.4, Motor.B, Motor.A);
-		DifferentialPilot pilot = new DifferentialPilot(4.8, 20.5, Motor.B, Motor.A);
+		DifferentialPilot pilot = new DifferentialPilot(8.6, 18.6, Motor.B, Motor.A, true);
 		CompassHTSensor compass = new CompassHTSensor(SensorPort.S4);
 		compass.resetCartesianZero();
 		while(!Button.ESCAPE.isDown()) {

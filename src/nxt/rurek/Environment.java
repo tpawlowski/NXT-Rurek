@@ -26,10 +26,10 @@ public class Environment {
 	final double penaltyWidth = 50;
 	final double closerMidline = 70;
 	
-	final double Robotwidth = 20.5;
+	final double Robotwidth = 18.6;
 	final double RobotLength = 18;
 	final double RobotHeight = 10;
-	final double RobotWheel = 4.8;
+	final double RobotWheel = 8.6;
 	
 	public static Environment getSingleton() {
 		return singleton;
