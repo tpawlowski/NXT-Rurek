@@ -18,10 +18,10 @@ public class Measurement {
 	
 	public double calculateX() throws EnvironmentException {
 		Environment env = Environment.getEnvironment();
-		if(hasDistance() && rotation > 45 && rotation <= 125){
+		if(hasDistance() && rotation > 55 && rotation <= 115){
 			return Math.abs(Math.sin(Math.toRadians(rotation))) * distance;
 		}
-		else if(hasDistance() && rotation > 225 && rotation <= 315) {
+		else if(hasDistance() && rotation > 235 && rotation <= 305) {
 			return env.getWidth() - Math.abs(Math.sin(Math.toRadians(rotation)) * distance);
 		}
 		return -1;
@@ -29,21 +29,19 @@ public class Measurement {
 	
 	public double calculateY() throws EnvironmentException {
 		Environment env = Environment.getEnvironment();
-		if(hasDistance() && (rotation > 125 && rotation <= 225)){
+		if(hasDistance() && (rotation > 135 && rotation <= 215)){
 					return Math.abs(Math.cos(Math.toRadians(rotation))) * distance;
 		}
-		else if(hasDistance() && (rotation > 315  || rotation <= 45)) {
+		else if(hasDistance() && (rotation > 325  || rotation <= 35)) {
 			return env.getHeight() - Math.abs(Math.cos(Math.toRadians(rotation)) * distance);
 		}
 		return -1;
 	}
 	
 	public boolean canCalculateY() {
-		return hasDistance() && ((rotation > 125 && rotation <= 225) || (rotation >315  || rotation <= 45));
-	}
-	
+		return hasDistance() && ((rotation > 135 && rotation <= 215) || (rotation >325  || rotation <= 35)); } 
 	public boolean canCalculateX() {
-		return hasDistance() && ((rotation > 45 && rotation <= 125) || (rotation > 225 && rotation <= 315));
+		return hasDistance() && ((rotation > 55 && rotation <= 115) || (rotation > 235 && rotation <= 305));
 	}
 	
 	public static double normalizeAngle(double angle) {
