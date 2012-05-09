@@ -1,5 +1,8 @@
 package nxt.rurek.strategies;
 
+import lejos.nxt.LCD;
+import lejos.robotics.localization.PoseProvider;
+import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Navigator;
 import nxt.rurek.Ball;
 import nxt.rurek.Direction;
@@ -12,26 +15,32 @@ public class ChaseTheBall extends Strategy{
 		super ();
 	}
 	
+	double max (double a, double b) {
+		return a > b ? a : b;
+	}
+	
 	@Override
 	public void playWith(PositionController move) {
 		Navigator navigator = move.getNavigator();
 		BallListener ball = move.getBallListener();
-		Direction ballDirection;
-		
+		PoseProvider pp = navigator.getPoseProvider();
+		DifferentialPilot dp = move.getDifferentialPilot();
+		Direction bd;
+		int i = 0;
 		while (true) {
-			boolean foundInRange = false;
-			while (!foundInRange) {
-				ballDirection = ball.getLast();
-				foundInRange = ballDirection.isInRange();
-				if (!foundInRange) {
-					/* szukaj */
-					double angle = (double) navigator.getPoseProvider().getPose().getHeading();
-					navigator.rotateTo(Direction.normalize(angle+90));
+			bd = ball.getLast();
+			if(!bd.isInRange()) {
+				dp.rotate(60);
+				continue;
+			} else{
+				if (Math.abs(bd.getAngle()) > 30 && bd.getDistance() > 10 ) {
+					dp.rotate(bd.getRotation());
+				} else {
+					dp.travel(max(bd.getDistance(), 50));
 				}
 			}
-			navigator.addWaypoint(ball.getLast().toWaypoint(navigator.getPoseProvider().getPose()));
-			navigator.waitForStop();
-			navigator.clearPath();
+			i++;
+			if (i == 20) break;
 		}
 	}
 }

@@ -2,6 +2,7 @@ package nxt.rurek;
 
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
+import nxt.rurek.geometry.Point;
 import nxt.rurek.position.BallDistanceEstimator;
 
 public class Direction {
@@ -76,14 +77,9 @@ public class Direction {
 			angle -= 120.0*((double)val[4]/(val[0]+val[4]));
 		}
 	
-		angle = Direction.normalize(360 - angle - 90);
-		
+		angle = Direction.normalize(-angle);
 		double maybeDistance = BallDistanceEstimator.getEstimation(val);
-		if (maybeDistance >= 0) {
-			this.distance = maybeDistance;
-		} else {
-			this.distance = -1;
-		}
+		this.distance = maybeDistance;
 	}
 
 	public boolean hasDistance() {
@@ -96,6 +92,11 @@ public class Direction {
 	
 	public double getAngle() {
 		return angle;
+	}
+	
+	public double getRotation() {
+		if (angle > 180) return 360 - angle;
+		else return angle;
 	}
 
 	public void setAngle(float angle) {
@@ -118,8 +119,13 @@ public class Direction {
 		return Math.abs(normalize(angleB-this.angle));
 	}
 	
+	public Point toPoint (Pose p) {
+		double d = getDistance();
+		return new Point (p.getX()-d*Math.sin(getAngle()),p.getY()+d*Math.cos(getAngle()));
+	}
+	
 	public Waypoint toWaypoint (Pose p) {
-		Waypoint ret = toWaypoint(p);
+		Waypoint ret = new Waypoint(p);
 		double d;
 		if (!hasDistance()) {
 			d = 20;
@@ -127,7 +133,7 @@ public class Direction {
 			d = getDistance();
 		}
 		if (isInRange()) {
-			ret.setLocation(ret.getX()+d*Math.cos(getAngle()), ret.getY()+d*Math.sin(getAngle()));
+			ret.setLocation(ret.getX()-d*Math.sin(getAngle()), ret.getY()+d*Math.cos(getAngle()));
 		}
 		return ret;
 	}

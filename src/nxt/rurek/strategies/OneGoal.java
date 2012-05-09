@@ -1,9 +1,13 @@
 package nxt.rurek.strategies;
 
+import lejos.robotics.localization.PoseProvider;
+import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Navigator;
 import lejos.robotics.navigation.Pose;
 import nxt.rurek.Direction;
 import nxt.rurek.Environment;
+import nxt.rurek.geometry.Functions;
+import nxt.rurek.geometry.Point;
 import nxt.rurek.movement.PositionController;
 import nxt.rurek.position.BallListener;
 
@@ -22,7 +26,7 @@ public class OneGoal extends Strategy{
 	}
 	
 	public boolean hasBall (Direction ballDirection) {
-		return ballDirection.hasDistance() && ballDirection.getDistance() < 10 ;
+		return ballDirection.hasDistance() && ballDirection.getDistance() < 10;
 	}
 	
 	public boolean charge_angle (Direction d, Pose position) {
@@ -32,70 +36,93 @@ public class OneGoal extends Strategy{
 	}
 	
 	public int getStan (Direction ballDirection, Pose position) {
+		Point me = Functions.fromPose(position);
+		Point ball = ballDirection.toPoint(position);
 		if (charge_angle(ballDirection, position) && hasBall(ballDirection)) {
 			return RECKLESS_CHARGE;
-		} else if (Math.abs(90 - ballDirection.getImperativeAngle(position.getHeading())) > 45) { 
-			/* piłka jest nie w tym kierunku co chcę jechać */
+		} else if (ball.getY() < me.getY() && me.getY() > 40) { 
 			return THIS_IS_NOT_BALL;
-		} else if () { /* piłka jest w prawie dobrym kierunku i jest blisko */
-			
-		} else if () { /* piłka jest w dobrym kierunku */
-			
-		} 
+		} else if (ball.getY() < me.getY() && me.getY() <= 40) { 
+			return YOU_SHALL_NOT_PASS;
+		} else {
+			return 7;
+		}
+	}
+	
+	
+	public void goTo (double x, double y, double d,  Pose p, DifferentialPilot dp) {
+		
+	}
+	
+	
+	public int getRotateDir (Pose p) {
+		if (p.getX() <= 40) {
+			return 1;
+		} else return -1;
+	}
+	
+	public double getRotation(double angle) {
+		return angle > 180 ? 360 - angle : angle; 
 	}
 	
 	@Override
 	public void playWith(PositionController move) {
+		DifferentialPilot dp = move.getDifferentialPilot();
 		Navigator navigator = move.getNavigator();
 		BallListener ball = move.getBallListener();
-		Direction ballDirection = null;
+		PoseProvider pp = move.getNavigator().getPoseProvider();
+		Direction bd;
 		while (true) {
-			boolean foundInRange = false;
-			while (!foundInRange) {
-				ballDirection = ball.getLast();
-				foundInRange = ballDirection.isInRange();
-				if (!foundInRange) {
-					/* szukaj */
-					double angle = (double) navigator.getPoseProvider().getPose().getHeading();
-					navigator.rotateTo(Direction.normalize(angle+90));
+			bd = ball.getLast();
+			boolean first = true;
+			while (!bd.isInRange()) {
+				
+				if (first) {
+					dp.rotate(5*getRotateDir(pp.getPose()));
+					first = false;
+				} else {
+					dp.rotate(60*getRotateDir(pp.getPose()));
 				}
+				bd = ball.getLast();
 			}
 			
-			switch (getStan(ballDirection, navigator.getPoseProvider().getPose())) {
+			
+			
+			Point me = Functions.fromPose(pp.getPose());
+			Point b = bd.toPoint(pp.getPose());
+			if (charge_angle(bd, pp.getPose()) && hasBall(bd)) {
+				while(charge_angle(bd, pp.getPose()) && hasBall(bd)) {
+		    		/* szarża */
+		    			/* trochę popraw kąt */
+		    		double angle = getChargeAngle(pp.getPose());
+		    		dp.rotate(getRotation(angle));
+		    		double d = Functions.getTarget().getDistance(Functions.fromPose(pp.getPose()));
+		    		if (d < 40) {
+		    			break;
+		    		} else {
+		    			dp.travel(d-30);
+		    		}
+		    	}
+			} else if (b.getY() < me.getY() && me.getY() > 30) { 
+				if (b.getX() > 60) {
+					goTo(10, 10, 30, pp.getPose(), dp);
+				} else {
+					goTo (Environment.getEnvironment().getWidth() -10, 10, 30, pp.getPose(), dp );
+				}
+			} else if (b.getY() < me.getY() && me.getY() <= 30) { 
+				
+			} else {
+				
+			}
+			switch (getStan(bd, pp.getPose())) {
 			    case(RECKLESS_CHARGE): 
-			    	while(charge_angle(ballDirection, navigator.getPoseProvider().getPose()) && hasBall(ballDirection)) {
-			    		/* szarża */
-			    			/* trochę popraw kąt */
-			    		double angle = getChargeAngle(navigator.getPoseProvider().getPose());
-			    		navigator.rotateTo(angle);
-			    			/* przejedź trochę */
-			    		double x = navigator.getPoseProvider().getPose().getX() + 15*Math.cos(angle);
-			    		double y = navigator.getPoseProvider().getPose().getY() + 15*Math.sin(angle);
-			    		navigator.addWaypoint((float)x, (float)y);
-			    		navigator.followPath();
-			    		navigator.waitForStop();
-			    		ballDirection = ball.getLast();
-			    	}
+			    	
 			    	break;
 			    case(THIS_IS_NOT_BALL):
-			    	/* cofam się trochę w stronę bramki */
-			    	double x = navigator.getPoseProvider().getPose().getX() + 15*Math.cos(angle);
-	    			double y = navigator.getPoseProvider().getPose().getY() + 15*Math.sin(angle);
-	    			navigator.addWaypoint((float)x, (float)y);
-	    			navigator.followPath();
-	    			navigator.waitForStop();
 			    	
+			    	break;
 			}
 			
-			ballDirection = ball.getLast();
-			if (!ballDirection.hasDistance()){
-				ballDirection.setDistance(15);
-			}
-			move.goToPosition(ballDirection);
-			ballDirection = ball.getLast();
-			if (ballDirection.hasDistance() && ballDirection.getDistance() < 10) {
-				break;
-			}
 		}
 	}
 }

@@ -32,8 +32,16 @@ public class PitchPoseProvider implements PoseProvider {
 		poseProvider.setPose(p);
 	}
 	
+	int max (int a, int b) {
+		return a > b ? a : b;
+	}
+	
+	int min (int a, int b) {
+		return a < b ? a : b;
+	}
+	
 	private int normalizeCoord(int coord, int max) {
-		return Math.min(Math.max(coord, 0), max);
+		return min(max(coord, 0), max);
 	}
 
 }

@@ -21,6 +21,7 @@ public class BallListener {
 	}
 	
 	public Direction getLast () {
+		//return new Direction(0, 100);
 		return lastPos[acc];
 	}
 }

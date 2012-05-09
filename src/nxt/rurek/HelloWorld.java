@@ -75,8 +75,17 @@ public class HelloWorld {
 	}
 	
     public static void main(String[] args) {
-    	Init i= new Init();
-    	ChaseTheBall strategy = new ChaseTheBall();
-    	strategy.playWith(i.controller);
+    	Init i = new Init();
+    	LCD.drawString("dupa", 0, 0);
+    	try {
+    		ChaseTheBall strategy = new ChaseTheBall();
+    		strategy.playWith(i.controller);
+    	} catch (Exception e) {
+    		i.release();
+    	} finally {
+    		while(!Button.ENTER.isDown());
+    		i.release();
+    	}
+    	
     }
 }

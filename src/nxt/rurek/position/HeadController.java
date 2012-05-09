@@ -7,6 +7,7 @@ import lejos.nxt.addon.CompassHTSensor;
 import lejos.nxt.addon.IRSeekerV2;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.RegulatedMotorListener;
+import nxt.rurek.Direction;
 import nxt.rurek.Environment;
 
 public class HeadController implements RegulatedMotorListener  {
@@ -43,13 +44,18 @@ public class HeadController implements RegulatedMotorListener  {
 		if(currentDirection == MoveDirection.Stoped) return;
 		
 		if(listener != null) {
+			blistener.gotMeasure(irsensor.getSensorValues());
+			int[] val = irsensor.getSensorValues();
+			Direction d = blistener.getLast();
 			LCD.drawString("dist: " + distance.getDistance() + "  ", 0, 6);
-			LCD.drawString("direction: " +  compass.getDegrees() + "  ", 0, 7);
+			//LCD.drawString("direction: " +  compass.getDegrees() + "  ", 0, 7);
+			LCD.drawString(val[0]+" "+val[1]+" "+val[2]+" "+val[3]+" "+val[4]+"   ", 0, 7);
+			LCD.drawString("ball: " + d.isInRange() + " " + d.getAngle() + " ", 0, 2);
+			LCD.drawString("   dist: " + d.hasDistance() + " " + d.getDistance() + " ", 0, 3);
 			
 			double head_angle = compass.getDegreesCartesian() + (((double) head.getTachoCount() / max_tacho) * 180) - 90;
 			Measurement current = new Measurement(head_angle,  distance.getDistance());
 			listener.gotMeasure(current);
-			blistener.gotMeasure(irsensor.getSensorValues());
 		}
 		
 		if(currentDirection == MoveDirection.Left) {

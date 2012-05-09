@@ -20,7 +20,7 @@ public class PositionController {
 		//pilot = new DifferentialPilot(8.95, 14.8, Motor.B, Motor.A);
 		//Dom pawloskiego: pilot = new CompassPilot(new CompassHTSensor(SensorPort.S4), 8.95f, 14.8f, Motor.B, Motor.A);
 		Environment env = Environment.getEnvironment();
-		pilot = new DifferentialPilot(env.getRobotWheel(), env.getRobotwidth(), env.getLeftMotor(), env.getRightMotor());
+		pilot = new DifferentialPilot(env.getRobotWheel(), env.getRobotwidth(), env.getLeftMotor(), env.getRightMotor(), true);
 		//pilot = new DifferentialPilot(8.1f, 14.8f, Motor.B, Motor.A);
 		position = new Position(this);
 		navigator = new Navigator(pilot);
