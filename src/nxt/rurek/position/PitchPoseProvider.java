@@ -1,12 +1,14 @@
 package nxt.rurek.position;
 
 import nxt.rurek.Environment;
+import lejos.nxt.addon.CompassHTSensor;
 import lejos.robotics.localization.PoseProvider;
 import lejos.robotics.navigation.Pose;
 
 public class PitchPoseProvider implements PoseProvider {
 	
 	private PoseProvider poseProvider;
+	private CompassHTSensor compass;
 	
 	public PitchPoseProvider(PoseProvider pose) {
 		this.poseProvider = pose;
@@ -15,11 +17,23 @@ public class PitchPoseProvider implements PoseProvider {
 	@Override
 	public Pose getPose() {
 		normalize();
-		return poseProvider.getPose();
+		
+		Pose aPose = poseProvider.getPose();
+		float heading = aPose.getHeading();
+		
+		float compass_heading = compass.getDegreesCartesian();
+		aPose.setHeading((heading + compass_heading) / 2);
+		
+		return aPose;
 	}
 
 	@Override
 	public void setPose(Pose aPose) {
+		float heading = aPose.getHeading();
+		
+		float compass_heading = compass.getDegreesCartesian();
+		aPose.setHeading((heading + compass_heading) / 2);
+		
 		poseProvider.setPose(aPose);
 		normalize();
 	}
