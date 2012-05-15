@@ -1,14 +1,12 @@
 package nxt.rurek;
-import javax.swing.text.ChangedCharSetException;
-
-import nxt.rurek.strategies.ChaseTheBall;
-
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
 import lejos.nxt.addon.CompassHTSensor;
 import lejos.nxt.addon.IRSeekerV2;
+import nxt.rurek.strategies.ChaseTheBall;
+import nxt.rurek.strategies.OneGoal;
 
 public class HelloWorld {
 	
@@ -78,7 +76,8 @@ public class HelloWorld {
     	Init i = new Init();
     	LCD.drawString("dupa", 0, 0);
     	try {
-    		ChaseTheBall strategy = new ChaseTheBall();
+    		OneGoal strategy = new OneGoal();
+    		ChaseTheBall strategy2 = new ChaseTheBall();
     		strategy.playWith(i.controller);
     	} catch (Exception e) {
     		i.release();

@@ -54,6 +54,10 @@ public class BallDistanceEstimator {
 						0,	0,	0,	0,	0, 	232,	0,
 						0,	0,	0,	0,	232, 	232,	0,
 						0,	0,	0,	232, 	232,	0,	0,
+						0,	0,	0,	180, 	180,	0,	0,
+						0,	0,	0,	0, 	180,	180,	0,
+						0,	0,	0,	0, 	0,	180,	0,
+						0,	0,	0,	0, 	0,	200,	0,
 						0,	20,	0,	0,	209,	0,	0,
 						0,	40,	0,	0,	184,	0,	0,
 						0,	60,	0,	0,	155,	0,	0,
@@ -83,7 +87,7 @@ public class BallDistanceEstimator {
 		double currDist;
 		for (int i = 0; i < knownPoints.length; ++i) {
 			currDist = getDistance(val,knownPoints[i]);
-			if (currDist <bestDist) {
+			if (currDist < bestDist) {
 				bestNo = i;
 				bestDist = currDist;
 			}

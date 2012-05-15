@@ -1,7 +1,7 @@
 package nxt.rurek.conditions;
 
+import nxt.rurek.position.Situation;
+
 public abstract class Condition {
-	
-	// TODO to powinno dostawać jakąś sytuację na planszy
-	public abstract boolean check ();
+	public abstract boolean check (Situation s);
 }
