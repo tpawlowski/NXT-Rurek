@@ -95,7 +95,7 @@ public class Direction {
 	}
 	
 	public double getRotation() {
-		if (angle > 180) return 360 - angle;
+		if (angle > 180) return angle-360;
 		else return angle;
 	}
 
@@ -119,9 +119,12 @@ public class Direction {
 		return Math.abs(normalize(angleB-this.angle));
 	}
 	
+	
+	
 	public Point toPoint (Pose p) {
 		double d = getDistance();
-		return new Point (p.getX()-d*Math.sin(getAngle()),p.getY()+d*Math.cos(getAngle()));
+		double a = Direction.normalize(p.getHeading() + getAngle()); 
+		return new Point (p.getX()+d*Math.cos(Math.toRadians(a)),p.getY()+d*Math.sin(Math.toRadians(a)));
 	}
 	
 	public Waypoint toWaypoint (Pose p) {

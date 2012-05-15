@@ -1,5 +1,7 @@
 package nxt.rurek.geometry;
 
+import nxt.rurek.Direction;
+
 public class Point {
 	private double x, y; /* point coordinates relative to midpoint of left size */
 	
@@ -78,6 +80,6 @@ public class Point {
 	 * @return angle
 	 */
 	public double getAngle (Point b) {
-		return Math.atan2(b.getX() - getX(),  b.getY() - getY());
+		return Direction.normalize(Math.toDegrees(Math.atan2( b.getY() - getY(), b.getX() - getX())));
 	}
 }

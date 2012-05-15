@@ -3,6 +3,8 @@ package nxt.rurek;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.IRSeekerV2;
 
+
+/** @deprecated */
 public class Ball {
 
 	
