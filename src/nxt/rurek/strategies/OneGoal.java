@@ -73,12 +73,12 @@ public class OneGoal extends Strategy {
 		
 		while (!Button.ENTER.isDown()) {
 			
-			/*LCD.clear(4);
+			/*
+			LCD.clear(4);
 			LCD.drawInt((int)bd.getAngle(), 0, 4);
 			LCD.drawInt((int)bd.getDistance(), 4, 4);
 			LCD.drawInt((int)b.getX(), 8, 4);
-			LCD.drawInt((int)b.getY(), 12, 4);
-			break;*/
+			LCD.drawInt((int)b.getY(), 12, 4);*/
 			
 			bd = s.getBl().getLast();
 			try_cnt = 0;
@@ -94,6 +94,9 @@ public class OneGoal extends Strategy {
 			b = bd.toPoint(s.getPp().getPose());
 			
 			forceUpdateBall(s);
+			
+			LCD.drawInt((int)bd.getAngle(), 0, 3);
+			LCD.drawInt((int)bd.getDistance(), 4, 3);
 			
 			/*if (isChargingCond.check(s) && hasBallCond.check(s)) {
 				LCD.drawInt(0, 15, 3);
@@ -117,6 +120,7 @@ public class OneGoal extends Strategy {
 				}
 			} else */ if (hasBallCond.check(s)) {
 				/* obracam się w stronę bramki */
+				LCD.drawInt(1, 14, 3);
 				double angle = getChargeAngle(s.getPp().getPose(), trg)-90;
 		    	rotateWithBallTo(convertRotation(angle, s.getPp().getPose().getHeading()), s);
 		    	break;

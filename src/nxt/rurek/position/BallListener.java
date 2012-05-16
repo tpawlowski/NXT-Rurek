@@ -1,5 +1,6 @@
 package nxt.rurek.position;
 
+import lejos.nxt.LCD;
 import nxt.rurek.Direction;
 
 public class BallListener {
@@ -19,6 +20,8 @@ public class BallListener {
 	/** i remember 5 last seen, witch times of unseen */
 	public void gotMeasure(int[] v) {
 		acc = (acc+1)%n;
+		LCD.clear(7);
+		LCD.drawString(v[0]+" "+v[1]+" "+v[2]+" "+v[3]+" "+v[4]+"   ", 0, 7);
 		lastPos[acc] = new Direction(v);
 		no++;	
 	}
