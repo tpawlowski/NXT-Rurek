@@ -1,21 +1,19 @@
 package nxt.rurek.tests.position;
 
 import lejos.nxt.Button;
-import lejos.robotics.navigation.Pose;
+import lejos.nxt.LCD;
+import lejos.nxt.addon.CompassHTSensor;
 import nxt.rurek.Environment;
-import nxt.rurek.movement.PositionController;
-import nxt.rurek.position.HeadController;
-import nxt.rurek.position.Position;
 
 public class CompassTest {
 	public static void main(String[] args) {
-		/*CompassHTSensor compass = Environment.getEnvironment().getCompass();
+		CompassHTSensor compass = Environment.getEnvironment().getCompass();
 		compass.resetCartesianZero();
 		while(!Button.ESCAPE.isDown()) {
 			LCD.drawString("Compass: " + compass.getDegreesCartesian() + "    ", 0, 0);
 			Button.ENTER.waitForPress();
-		}*/
-		
+		}
+		/*
 		Environment.getEnvironment().getCompass().resetCartesianZero();
 		Environment env = Environment.getEnvironment();
 		HeadController head = new HeadController();
@@ -33,5 +31,6 @@ public class CompassTest {
 		}
 		Button.ESCAPE.waitForPress();
 		head.resetHead();
+		*/
 	}
 }

@@ -79,7 +79,7 @@ public class Measurement {
 	}
 
 	public void setRobotRotation(double robot_rotation) {
-		this.robot_rotation = robot_rotation;
+		this.robot_rotation = normalizeAngle(robot_rotation);
 	}
 
 }
