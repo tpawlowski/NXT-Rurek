@@ -67,7 +67,7 @@ public abstract class Strategy {
 	/* rotates slowly to (not by) given angle */
 	public void rotateWithBallTo (double a, Situation s) {
 		s.getDp().setRotateSpeed(s.getDp().getRotateMaxSpeed()/3);
-		s.getDp().rotate(getRotation(Direction.normalize(a-s.getPp().getPose().getHeading())), true);
+		s.getDp().rotate(a, true);
 		SemiHasBall shb = new SemiHasBall();
 		while (s.getDp().isMoving()) {
 			if (!shb.check(s)) {
@@ -89,7 +89,10 @@ public abstract class Strategy {
 		return angle > 180 ? angle - 360 : angle; 
 	}
 	
-	/* returns angle measure contained in [-180, 180] */
+	public double convertRotation(double toAngle, double myAngle) {
+		return getRotation(Direction.normalize(toAngle-myAngle));
+	}
+	
 	public double getChargeAngle (Pose position, Point p) {
 		return Math.toDegrees(Math.atan2(p.getY()-position.getY(), p.getX()-position.getX()));
 	}
@@ -103,6 +106,5 @@ public abstract class Strategy {
 		double myAngle = (double)position.getHeading();
 		return Math.abs(getChargeAngle(position, charge) - Direction.normalize(myAngle)) < 10;
 	}
-	
 	
 }

@@ -69,27 +69,111 @@ public class OneGoal extends Strategy {
 		while (dontSeeBallCond.check(s));
 		
 		Point b, me;
-		bd = s.getBl().getLast();
+		Point trg = Functions.getTarget();
 		
-		LCD.drawInt(2, 14, 3);
-		b = bd.toPoint(s.getPp().getPose());
-		me = new Point(s.getPp().getPose()); 
-		rotateTo(bd.getAngle(), s);
-		
-		s.getDp().travel(bd.getDistance(), true);
-		while (s.getDp().isMoving()) {
-			forceUpdateBall(s);
+		while (!Button.ENTER.isDown()) {
+			
+			/*LCD.clear(4);
+			LCD.drawInt((int)bd.getAngle(), 0, 4);
+			LCD.drawInt((int)bd.getDistance(), 4, 4);
+			LCD.drawInt((int)b.getX(), 8, 4);
+			LCD.drawInt((int)b.getY(), 12, 4);
+			break;*/
+			
 			bd = s.getBl().getLast();
-			if (!bd.isInRange()) break;
-			b = bd.toPoint(s.getPp().getPose());
-			me = new Point(s.getPp().getPose());
-			int xxx = (int) Math.abs(me.getAngle(b) - s.getPp().getPose().getHeading());
-			if (min(xxx, 360-xxx) > 30 || hasBallCond.check(s)) {
-				s.getDp().stop();
-				break;
+			try_cnt = 0;
+			while (!bd.isInRange()) {
+				if (try_cnt > 2) {
+					goTo(Functions.getFountain(), s, dontSeeBallCond);
+				}
+				rotate(getRotateDir(s.getPp().getPose())*360, s, dontSeeBallCond);
+				try_cnt++; 
+				bd = s.getBl().getLast();
 			}
+			me = Functions.fromPose(s.getPp().getPose());
+			b = bd.toPoint(s.getPp().getPose());
+			
+			forceUpdateBall(s);
+			
+			/*if (isChargingCond.check(s) && hasBallCond.check(s)) {
+				LCD.drawInt(0, 15, 3);
+				if (debug > 0) LCD.drawString("   " + 1 +  "   ", 0, 3);
+		    	double angle = getChargeAngle(s.getPp().getPose(), trg);
+		    	rotateWithBallTo(angle, s);
+		    	me = Functions.fromPose(s.getPp().getPose());
+				s.getDp().travel(me.getDistance(trg), true);
+				while(s.getDp().isMoving()) {
+					if (!semiHasBallCond.check(s)) {
+						s.getDp().stop();
+						break;
+					} else if (!isChargingCond.check(s)) {
+						s.getDp().stop();
+						angle = getChargeAngle(s.getPp().getPose(), trg);
+				    	rotateWithBallTo(angle, s);
+				    	s.getDp().travel(me.getDistance(trg), true);
+					} else if (isTooCloseCond.check(s)) {
+						defenceMode(s);
+					}
+				}
+			} else */ if (hasBallCond.check(s)) {
+				/* obracam się w stronę bramki */
+				double angle = getChargeAngle(s.getPp().getPose(), trg)-90;
+		    	rotateWithBallTo(convertRotation(angle, s.getPp().getPose().getHeading()), s);
+		    	break;
+			}
+			/*else if (backForBallCond.check(s)) {
+				LCD.drawInt(1, 14, 3);
+			    
+				boolean fromLeft = aroundFromLeft(s);
+				double wantedAngle;
+				
+				while (backForBallCond.check(s)) {
+					bd = s.getBl().getLast();
+					if (!bd.isInRange()) break;
+					me = new Point(s.getPp().getPose());
+					b = bd.toPoint(s.getPp().getPose());
+					wantedAngle = me.getAngle(b) + (fromLeft ? -90 : 90);
+					rotateTo(wantedAngle, s);
+					double angle;
+					if (fromLeft) {
+						if (me.getAngle(b) >= 270) angle = 360 - me.getAngle(b);
+						else angle = 90 - me.getAngle(b); 
+					} else {
+						if (me.getAngle(b) >= 270) angle = 180 + ( 90 - (360 - me.getAngle(b)));
+						else angle = me.getAngle(b) - 90;
+					}
+					s.getDp().arc(25 * (fromLeft ? 1 : -1) , angle);
+					rotateTo(90,s);
+				}
+			} */ else /* if (needComuteCond.check(s)) */ {
+				bd = s.getBl().getLast();
+				
+				LCD.drawInt(2, 14, 3);
+				b = bd.toPoint(s.getPp().getPose());
+				me = new Point(s.getPp().getPose()); 
+				rotateTo(bd.getAngle(), s);
+				
+				s.getDp().travel(bd.getDistance()+5, true);
+				while (s.getDp().isMoving()) {
+					forceUpdateBall(s);
+					bd = s.getBl().getLast();
+					if (!bd.isInRange()) break;
+					b = bd.toPoint(s.getPp().getPose());
+					me = new Point(s.getPp().getPose());
+					int xxx = (int) Math.abs(me.getAngle(b) - s.getPp().getPose().getHeading());
+					if (min(xxx, 360-xxx) > 30) {
+						s.getDp().stop();
+						break;
+					}
+				}
+				LCD.drawInt(1, 6, 3);
+			}
+			
+			
 		}
-		LCD.drawInt(1, 6, 3);
+		
+		
+		
 		
 	}
 }
