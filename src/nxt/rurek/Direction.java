@@ -112,7 +112,7 @@ public class Direction {
 	}
 	
 	public double getImperativeAngle(double robotAngle) {
-		return Direction.normalize(robotAngle+getAngle()-90);
+		return Direction.normalize(robotAngle+getAngle());
 	}
 	
 	public double getAngleDistance (double angleB) {
@@ -123,7 +123,7 @@ public class Direction {
 	
 	public Point toPoint (Pose p) {
 		double d = getDistance();
-		double a = Direction.normalize(p.getHeading() + getAngle() - 90);
+		double a = Direction.normalize(p.getHeading() + getAngle());
 		return new Point (p.getX()+d*Math.cos(Math.toRadians(a)),p.getY()+d*Math.sin(Math.toRadians(a)));
 	}
 	
