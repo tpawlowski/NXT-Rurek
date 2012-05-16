@@ -84,7 +84,7 @@ public class OneGoal extends Strategy {
 			
 			if (isChargingCond.check(s) && hasBallCond.check(s)) {
 				LCD.drawInt(0, 15, 3);
-				/*if (debug > 0) LCD.drawString("   " + 1 +  "   ", 0, 3);
+				if (debug > 0) LCD.drawString("   " + 1 +  "   ", 0, 3);
 				Point trg = Functions.getTarget();
 		    	double angle = getChargeAngle(s.getPp().getPose(), trg);
 		    	rotateWithBallTo(angle, s);
@@ -102,10 +102,10 @@ public class OneGoal extends Strategy {
 					} else if (isTooCloseCond.check(s)) {
 						defenceMode(s);
 					}
-				}*/
+				}
 			} else if (backForBallCond.check(s)) {
 				LCD.drawInt(1, 14, 3);
-			    /*
+			    
 				boolean fromLeft = aroundFromLeft(s);
 				double wantedAngle;
 				
@@ -126,11 +126,11 @@ public class OneGoal extends Strategy {
 					}
 					s.getDp().arc(25 * (fromLeft ? 1 : -1) , angle);
 					rotateTo(90,s);
-				}*/
+				}
 			} else {
 				LCD.drawInt(2, 14, 3);
-				/* double angle = getChargeAngle(s.getPp().getPose(), Functions.getTarget());
-		    	rotateWithBallTo(angle, s);	*/			
+				double angle = getChargeAngle(s.getPp().getPose(), Functions.getTarget());
+		    	rotateWithBallTo(angle, s);		
 			}
 			
 		}

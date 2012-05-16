@@ -136,6 +136,7 @@ public class Direction {
 			d = getDistance();
 		}
 		if (isInRange()) {
+			double a = getAngle();
 			ret.setLocation(p.getX()+d*Math.cos(Math.toRadians(a)),p.getY()+d*Math.sin(Math.toRadians(a)));
 		}
 		return ret;
