@@ -13,7 +13,7 @@ public class Measurement {
 		super();
 		this.rotation = normalizeAngle(rotation);
 		this.distance = distance;
-		LCD.drawString("M, rot: " +  this.rotation+ "  ", 0, 0);
+		LCD.drawString("M, rot: " + this.rotation + "  ", 0, 0);
 	}
 	
 	public double calculateX() throws EnvironmentException {

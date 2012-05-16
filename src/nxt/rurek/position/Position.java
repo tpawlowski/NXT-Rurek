@@ -46,7 +46,7 @@ public class Position implements MeasurementListener {
 			}
 		}
 		current.setLocation(p);
-		current.setHeading((float) m.normalizeAngle(m.getRobotRotation() + 90));	
+		current.setHeading((float) m.getRobotRotation());	
 		LCD.drawString("X:" + (int) this.x + "Y:" + (int) this.y + "R:" + current.getHeading(), 0, 5);
 		controller.getNavigator().getPoseProvider().setPose(current);
 	}
