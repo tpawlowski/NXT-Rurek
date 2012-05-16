@@ -8,6 +8,7 @@ import nxt.rurek.conditions.BackForBall;
 import nxt.rurek.conditions.DontSeeBall;
 import nxt.rurek.conditions.EmptyCondition;
 import nxt.rurek.conditions.HasBall;
+import nxt.rurek.conditions.NeedComute;
 import nxt.rurek.conditions.SemiHasBall;
 import nxt.rurek.conditions.isCharging;
 import nxt.rurek.conditions.isTooClose;
@@ -60,6 +61,7 @@ public class OneGoal extends Strategy {
 		SemiHasBall semiHasBallCond = new SemiHasBall();
 		DontSeeBall dontSeeBallCond = new DontSeeBall();	
 		BackForBall backForBallCond = new BackForBall();
+		NeedComute needComuteCond = new NeedComute();
 		isTooClose isTooCloseCond = new isTooClose(Functions.getTarget());
 		isCharging isChargingCond = new isCharging(destination);
 		int try_cnt;
@@ -127,10 +129,45 @@ public class OneGoal extends Strategy {
 					s.getDp().arc(25 * (fromLeft ? 1 : -1) , angle);
 					rotateTo(90,s);
 				}
-			} else {
+			} else /* if (needComuteCond.check(s)) */ {
+				if (!bd.isInRange()) continue;
 				LCD.drawInt(2, 14, 3);
-				double angle = getChargeAngle(s.getPp().getPose(), Functions.getTarget());
-		    	rotateWithBallTo(angle, s);		
+				b = bd.toPoint(s.getPp().getPose());
+				me = new Point(s.getPp().getPose()); 
+				
+				LCD.clear(4);
+				LCD.drawInt((int)bd.getAngle(), 0, 4);
+				LCD.drawInt((int)bd.getDistance(), 4, 4);
+				LCD.drawInt((int)me.getX(), 8, 4);
+				LCD.drawInt((int)me.getY(), 12, 4);
+				/*LCD.clear(4);
+				LCD.drawInt((int)b.getX(), 0, 4);
+				LCD.drawInt((int)b.getY(), 4, 4);
+				LCD.drawInt((int)me.getX(), 8, 4);
+				LCD.drawInt((int)me.getY(), 12, 4);*/
+				
+				//LCD.drawInt((int)me.getAngle(b), 0, 3);
+				rotateTo(me.getAngle(b), s);
+				
+				s.getDp().travel(me.getDistance(b), true);
+				while (s.getDp().isMoving()) {
+					forceUpdateBall(s);
+					bd = s.getBl().getLast();
+					if (!bd.isInRange()) break;
+					b = bd.toPoint(s.getPp().getPose());
+					me = new Point(s.getPp().getPose());
+					int xxx = (int) Math.abs(me.getAngle(b) - s.getPp().getPose().getHeading());
+					if (min(xxx, 360-xxx) > 30 || hasBallCond.check(s)) {
+						//LCD.drawInt(1, 5, 3);
+						//LCD.drawInt(min(xxx, 360-xxx), 8, 3); 
+						//LCD.drawInt((int)me.getAngle(b), 0, 4);
+						//LCD.drawInt((int)s.getPp().getPose().getHeading(), 4, 4); 
+						s.getDp().stop();
+						break;
+					}
+				}
+				LCD.drawInt(1, 6, 3);
+			
 			}
 			
 		}

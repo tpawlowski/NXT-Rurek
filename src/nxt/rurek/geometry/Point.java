@@ -87,6 +87,6 @@ public class Point {
 	 * @return angle
 	 */
 	public double getAngle (Point b) {
-		return Direction.normalize(Math.toDegrees(Math.atan2( b.getY() - getY(), b.getX() - getX())));
+		return Direction.normalize(Math.toDegrees(Math.atan2(b.getY() - getY(), b.getX() - getX())));
 	}
 }

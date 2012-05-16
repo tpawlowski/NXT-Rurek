@@ -101,7 +101,7 @@ public class Position implements MeasurementListener {
 		}
 		double mx = x - rx;
 		double my = y - ry;
-		return new Direction(getAngle(mx, my), getNorm(mx, my));
+		return new Direction(getAngle(my, mx), getNorm(mx, my));
 	}
 	
 	public Direction getGoalRelativeDirection () {

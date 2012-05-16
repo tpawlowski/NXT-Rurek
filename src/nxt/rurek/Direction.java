@@ -123,7 +123,7 @@ public class Direction {
 	
 	public Point toPoint (Pose p) {
 		double d = getDistance();
-		double a = Direction.normalize(p.getHeading() + getAngle() - 90); 
+		double a = Direction.normalize(p.getHeading() + getAngle() - 90);
 		return new Point (p.getX()+d*Math.cos(Math.toRadians(a)),p.getY()+d*Math.sin(Math.toRadians(a)));
 	}
 	

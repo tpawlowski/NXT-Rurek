@@ -18,7 +18,7 @@ public class isCharging extends Condition{
 	public boolean check(Situation s) {
 		double myAngle = (double)s.getPp().getPose().getHeading();
 		Point myPoint = Functions.fromPose(s.getPp().getPose());
-		return Math.abs(myPoint.getAngle(destination) - Direction.normalize(myAngle)) < 30;
+		return Math.abs(myPoint.getAngle(destination) - Direction.normalize(myAngle)) < 15;
 	}
 
 }

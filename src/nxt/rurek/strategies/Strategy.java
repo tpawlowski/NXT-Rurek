@@ -1,5 +1,6 @@
 package nxt.rurek.strategies;
 
+import lejos.nxt.addon.IRSeekerV2;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Pose;
 import nxt.rurek.Direction;
@@ -9,12 +10,16 @@ import nxt.rurek.conditions.SemiHasBall;
 import nxt.rurek.geometry.Functions;
 import nxt.rurek.geometry.Point;
 import nxt.rurek.movement.PositionController;
+import nxt.rurek.position.BallListener;
 import nxt.rurek.position.Situation;
 
 public abstract class Strategy {
 
+	private IRSeekerV2 irsensor;
+	
 	public Strategy () {
 		super ();
+		irsensor = Environment.getEnvironment().getIrsensor();
 	}
 	/* Rurek plays with this strategy until condition is set to true */
 	public abstract void playWith(PositionController move);
@@ -32,6 +37,14 @@ public abstract class Strategy {
 		}
 	}
 	
+	public int min (int a, int b) {
+		return (a > b) ? b : a;
+	}
+	
+	public int max (int a, int b) {
+		return (a > b) ? a : b;
+	}
+	
 	public void rotate (double angle, Situation s, Condition c) {
 		s.getDp().rotate(angle, true);
 		while (s.getDp().isMoving()) {
@@ -42,9 +55,13 @@ public abstract class Strategy {
 		}
 	}
 	
+	public void forceUpdateBall(Situation s) {
+		s.getBl().gotMeasure(irsensor.getSensorValues());
+	}
+	
 	/* rotates to (not by) given angle immedietly*/
 	public void rotateTo (double a, Situation s) {
-		s.getDp().rotate(getRotation(Direction.normalize(a-s.getPp().getPose().getHeading()))); 
+		s.getDp().rotate(getRotation(a)); 
 	}
 	
 	/* rotates slowly to (not by) given angle */
