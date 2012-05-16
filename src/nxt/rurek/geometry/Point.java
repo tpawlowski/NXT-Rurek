@@ -1,5 +1,6 @@
 package nxt.rurek.geometry;
 
+import lejos.robotics.navigation.Pose;
 import nxt.rurek.Direction;
 
 public class Point {
@@ -11,6 +12,12 @@ public class Point {
 		this.y = y;
 	}
 
+	public Point(Pose p) {
+		super();
+		this.x = p.getX();
+		this.y = p.getY();
+	}
+	
 	public double getX() {
 		return x;
 	}

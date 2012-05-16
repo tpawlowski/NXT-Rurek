@@ -19,7 +19,7 @@ public class Init {
 			Environment.getEnvironment().getCompass().resetCartesianZero();
 			Environment.getEnvironment().getHeadMotor().setSpeed(
 					Environment.getEnvironment().getHeadMotor().getMaxSpeed());
-			controller.getDifferentialPilot().setTravelSpeed(controller.getDifferentialPilot().getMaxTravelSpeed() / 5);
+			controller.getDifferentialPilot().setTravelSpeed(controller.getDifferentialPilot().getMaxTravelSpeed());
 			controller.getDifferentialPilot().setRotateSpeed(controller.getDifferentialPilot().getRotateMaxSpeed());
 			head.addMeasurementListener(new Position(controller));
 			BallListener blistener = new BallListener();

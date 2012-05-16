@@ -5,6 +5,7 @@ import lejos.robotics.navigation.Pose;
 import nxt.rurek.Direction;
 import nxt.rurek.Environment;
 import nxt.rurek.conditions.Condition;
+import nxt.rurek.conditions.SemiHasBall;
 import nxt.rurek.geometry.Functions;
 import nxt.rurek.geometry.Point;
 import nxt.rurek.movement.PositionController;
@@ -47,10 +48,16 @@ public abstract class Strategy {
 	}
 	
 	/* rotates slowly to (not by) given angle */
-	public void rotateWithBallTo (double a, Pose p, DifferentialPilot dp) {
-		dp.setRotateSpeed(dp.getRotateMaxSpeed()/3);
-		dp.rotate(getRotation(Direction.normalize(a-p.getHeading()))); 
-		dp.setRotateSpeed(dp.getRotateMaxSpeed());
+	public void rotateWithBallTo (double a, Situation s) {
+		s.getDp().setRotateSpeed(s.getDp().getRotateMaxSpeed()/3);
+		s.getDp().rotate(getRotation(Direction.normalize(a-s.getPp().getPose().getHeading())), true);
+		SemiHasBall shb = new SemiHasBall();
+		while (s.getDp().isMoving()) {
+			if (!shb.check(s)) {
+				s.getDp().stop();
+			}
+		}
+		s.getDp().setRotateSpeed(s.getDp().getRotateMaxSpeed());
 	}
 	
 	public int getRotateDir (Pose p) {

@@ -19,6 +19,10 @@ public class Functions {
 		return new Point(x,y);
 	}
 	
+	public static Point getLeftCorner() {
+		return new Point (10, 10);
+	}
+	
 	public static Point getFountain () {
 		return new Point(Environment.getEnvironment().getWidth()/2,0);
 	}
