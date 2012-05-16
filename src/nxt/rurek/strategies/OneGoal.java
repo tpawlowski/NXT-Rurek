@@ -66,6 +66,8 @@ public class OneGoal extends Strategy {
 		
 		while (dontSeeBallCond.check(s));
 		
+		LCD.drawInt(0, 16, 3);
+		
 		while (!Button.ENTER.isDown()) {
 			bd = s.getBl().getLast();
 			try_cnt = 0;
@@ -81,8 +83,8 @@ public class OneGoal extends Strategy {
 			Point b = bd.toPoint(s.getPp().getPose());
 			
 			if (isChargingCond.check(s) && hasBallCond.check(s)) {
-				if (debug > 0) LCD.drawString("   " + 1 +  "   ", 0, 3);
-				/** reckless stance */
+				LCD.drawInt(0, 15, 3);
+				/*if (debug > 0) LCD.drawString("   " + 1 +  "   ", 0, 3);
 				Point trg = Functions.getTarget();
 		    	double angle = getChargeAngle(s.getPp().getPose(), trg);
 		    	rotateWithBallTo(angle, s);
@@ -100,16 +102,14 @@ public class OneGoal extends Strategy {
 					} else if (isTooCloseCond.check(s)) {
 						defenceMode(s);
 					}
-				}
+				}*/
 			} else if (backForBallCond.check(s)) {
-				/** ball is in wrong direction */
-				
-				/* z której strony mam objeżdżać */
+				LCD.drawInt(1, 14, 3);
+			    /*
 				boolean fromLeft = aroundFromLeft(s);
 				double wantedAngle;
 				
 				while (backForBallCond.check(s)) {
-						/* obracam się tak, żeby objeżdżać z dobrej strony */
 					bd = s.getBl().getLast();
 					if (!bd.isInRange()) break;
 					me = new Point(s.getPp().getPose());
@@ -126,12 +126,15 @@ public class OneGoal extends Strategy {
 					}
 					s.getDp().arc(25 * (fromLeft ? 1 : -1) , angle);
 					rotateTo(90,s);
-				}
+				}*/
 			} else {
-				double angle = getChargeAngle(s.getPp().getPose(), Functions.getTarget());
-		    	rotateWithBallTo(angle, s);				
+				LCD.drawInt(2, 14, 3);
+				/* double angle = getChargeAngle(s.getPp().getPose(), Functions.getTarget());
+		    	rotateWithBallTo(angle, s);	*/			
 			}
 			
 		}
+		
+		
 	}
 }

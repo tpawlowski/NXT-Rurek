@@ -20,7 +20,7 @@ public class BallListener {
 	public void gotMeasure(int[] v) {
 		acc = (acc+1)%n;
 		lastPos[acc] = new Direction(v);
-		no++;
+		no++;	
 	}
 	
 	public Direction getPrevious() {
