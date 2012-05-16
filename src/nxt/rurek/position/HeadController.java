@@ -53,7 +53,7 @@ public class HeadController implements RegulatedMotorListener  {
 			LCD.drawString("ball: " + d.isInRange() + " " + d.getAngle() + " ", 0, 2);
 			//LCD.drawString("   dist: " + d.hasDistance() + " " + d.getDistance() + " ", 0, 3);
 			
-			double head_angle = compass.getDegreesCartesian() + (((double) head.getTachoCount() / max_tacho) * 180) - 90;
+			double head_angle = compass.getDegreesCartesian() + (((double) head.getTachoCount() / max_tacho) * 180) - 180;
 			Measurement current = new Measurement(head_angle,  distance.getDistance());
 			listener.gotMeasure(current);
 		}
