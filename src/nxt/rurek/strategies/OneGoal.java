@@ -138,12 +138,12 @@ public class OneGoal extends Strategy {
 				LCD.clear(4);
 				LCD.drawInt((int)bd.getAngle(), 0, 4);
 				LCD.drawInt((int)bd.getDistance(), 4, 4);
-				LCD.drawInt((int)me.getX(), 8, 4);
-				LCD.drawInt((int)me.getY(), 12, 4);
-				/*LCD.clear(4);
-				LCD.drawInt((int)b.getX(), 0, 4);
-				LCD.drawInt((int)b.getY(), 4, 4);
-				LCD.drawInt((int)me.getX(), 8, 4);
+				/*LCD.drawInt((int)me.getX(), 8, 4);
+				LCD.drawInt((int)me.getY(), 12, 4);*/
+				LCD.clear(4);
+				LCD.drawInt((int)b.getX(), 8, 4);
+				LCD.drawInt((int)b.getY(), 12, 4);
+				/*LCD.drawInt((int)me.getX(), 8, 4);
 				LCD.drawInt((int)me.getY(), 12, 4);*/
 				
 				//LCD.drawInt((int)me.getAngle(b), 0, 3);
