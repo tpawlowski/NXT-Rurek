@@ -1,16 +1,15 @@
 package nxt.rurek.strategies;
 
 import lejos.nxt.addon.IRSeekerV2;
-import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Pose;
 import nxt.rurek.Direction;
 import nxt.rurek.Environment;
 import nxt.rurek.conditions.Condition;
+import nxt.rurek.conditions.NotThis;
 import nxt.rurek.conditions.SemiHasBall;
 import nxt.rurek.geometry.Functions;
 import nxt.rurek.geometry.Point;
 import nxt.rurek.movement.PositionController;
-import nxt.rurek.position.BallListener;
 import nxt.rurek.position.Situation;
 
 public abstract class Strategy {
@@ -66,14 +65,8 @@ public abstract class Strategy {
 	
 	/* rotates slowly to (not by) given angle */
 	public void rotateWithBallTo (double a, Situation s) {
-		s.getDp().setRotateSpeed(s.getDp().getRotateMaxSpeed()/3);
-		s.getDp().rotate(a, true);
-		SemiHasBall shb = new SemiHasBall();
-		while (s.getDp().isMoving()) {
-			if (!shb.check(s)) {
-				s.getDp().stop();
-			}
-		}
+		s.getDp().setRotateSpeed(s.getDp().getRotateMaxSpeed()/5);
+		s.getDp().rotate(a);
 		s.getDp().setRotateSpeed(s.getDp().getRotateMaxSpeed());
 	}
 	

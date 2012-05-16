@@ -11,7 +11,7 @@ public class BackForBall extends Condition {
 		Direction bd = s.getBl().getLast(); 
 		if (!bd.isInRange()) return false;
 		Point bp = bd.toPoint(s.getPp().getPose());
-		return bp.getY() > s.getPp().getPose().getY() + 10; 
+		return bp.getY() + 10 < s.getPp().getPose().getY(); 
 	}
 
 }
