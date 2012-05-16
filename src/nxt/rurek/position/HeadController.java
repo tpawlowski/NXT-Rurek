@@ -55,6 +55,7 @@ public class HeadController implements RegulatedMotorListener  {
 			
 			double head_angle = compass.getDegreesCartesian() + (((double) head.getTachoCount() / max_tacho) * 180) - 90;
 			Measurement current = new Measurement(head_angle,  distance.getDistance());
+			current.setRobotRotation(head_angle + 90);
 			listener.gotMeasure(current);
 		}
 		
