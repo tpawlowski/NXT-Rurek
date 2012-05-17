@@ -26,7 +26,7 @@ public abstract class Strategy {
 	/* to point po as long as the condition is satisfied */
 	public void goTo (Point po, Situation s, Condition c) {
 		Point p = Functions.fromPose(s.getPp().getPose());
-		rotateTo(p.getAngle(po), s);
+		rotateTo(convertRotation(p.getAngle(po), s.getPp().getPose().getHeading()), s);
 		s.getDp().travel(p.getDistance(po), true);
 		while(s.getDp().isMoving()) {
 			if (!c.check(s)) {

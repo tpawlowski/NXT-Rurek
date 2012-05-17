@@ -4,6 +4,7 @@ import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import nxt.rurek.Direction;
 import nxt.rurek.Environment;
+import nxt.rurek.conditions.AtackWall;
 import nxt.rurek.conditions.BackForBall;
 import nxt.rurek.conditions.DontSeeBall;
 import nxt.rurek.conditions.EmptyCondition;
@@ -54,6 +55,7 @@ public class OneGoal extends Strategy {
 		SemiHasBall semiHasBallCond = new SemiHasBall();
 		DontSeeBall dontSeeBallCond = new DontSeeBall();	
 		BackForBall backForBallCond = new BackForBall();
+		AtackWall atackWallCond = new AtackWall();
 		NeedComute needComuteCond = new NeedComute();
 		isTooClose isTooCloseCond = new isTooClose(Functions.getTarget());
 		isCharging isChargingCond = new isCharging(destination);
@@ -79,6 +81,7 @@ public class OneGoal extends Strategy {
 				if (try_cnt > 2) {
 					goTo(Functions.getFountain(), s, dontSeeBallCond);
 				}
+				s.getDp().travel(-7);
 				rotate(getRotateDir(s.getPp().getPose())*360, s, dontSeeBallCond);
 				try_cnt++; 
 				bd = s.getBl().getLast();
@@ -106,6 +109,11 @@ public class OneGoal extends Strategy {
 					}  else if (isTooCloseCond.check(s)) {
 						s.getDp().stop();
 						defenceMode(s);
+						break;
+					} else if (atackWallCond.check(s)) {
+						s.getDp().stop();
+						s.getDp().travel(-10);
+						break;
 					}
 				}
 			} else if (isTooCloseCond.check(s)) {
@@ -143,7 +151,9 @@ public class OneGoal extends Strategy {
 					s.getDp().arc(25 * (fromLeft ? 1 : -1) , angle);
 					rotateTo((fromLeft ? 90 : -90), s);
 				}*/
-			}  else /* if (needComuteCond.check(s)) */ {
+			} else if (atackWallCond.check(s)) {
+				s.getDp().travel(-10);
+			} else /* if (needComuteCond.check(s)) */ {
 				bd = s.getBl().getLast();
 				
 				LCD.drawInt(2, 14, 3);
@@ -151,6 +161,7 @@ public class OneGoal extends Strategy {
 				me = new Point(s.getPp().getPose()); 
 				rotateTo(bd.getAngle(), s);
 				
+				int cntr = 0;
 				s.getDp().travel(bd.getDistance()+7, true);
 				while (s.getDp().isMoving()) {
 					forceUpdateBall(s);
@@ -158,10 +169,12 @@ public class OneGoal extends Strategy {
 					if (!bd.isInRange()) break;
 					b = bd.toPoint(s.getPp().getPose());
 					me = new Point(s.getPp().getPose());
-					//int xxx = (int) Math.abs(me.getAngle(b) - s.getPp().getPose().getHeading());
-					if (/*min(xxx, 360-xxx) > 30 || */(bd.hasDistance() && bd.getDistance() < 5)) {
-						s.getDp().stop();
-						break;
+					if (bd.hasDistance() && bd.getDistance() == 0) {
+						cntr++;
+						if (cntr >= 10 || atackWallCond.check(s)) {
+							s.getDp().stop();
+							break;
+						}
 					}
 				}
 				LCD.drawInt(1, 6, 3);
